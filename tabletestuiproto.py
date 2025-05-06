@@ -4,7 +4,7 @@ import json
 import subprocess
 import pandas as pd
 from datetime import datetime, time
-import os, cv2, time
+import os
 from typing import List, Dict, Any
 
 # Configure page
@@ -30,7 +30,7 @@ if "client" not in st.session_state:
 
 # Client selection in sidebar
 st.sidebar.subheader("Client Selection")
-st.session_state.client = st.sidebar.text_input("Client", st.session_state.client, key = "cliententry")
+st.session_state.client = st.sidebar.text_input("Client", st.session_state.client)
 
 # Scheduler control section in sidebar
 st.sidebar.subheader("Scheduler Control")
@@ -579,92 +579,66 @@ elif page == "Camera Management":
                                                help="Enter 0 to show all sectors")
             
             # Fetch camera data based on filters
-            # try:
-            if room_filter and room_filter != "All Rooms":
-                if sector_filter > 0:
-                    # Get specific room and sector
+            try:
+                if room_filter and room_filter != "All Rooms":
+                    if sector_filter > 0:
+                        # Get specific room and sector
+                        response = requests.get(
+                            f"{API_URL}/cam",
+                            params={
+                                "client": st.session_state.client,
+                                "room": room_filter,
+                                "sector": sector_filter
+                            }
+                        )
+                    else:
+                        # Get all cameras in a room
+                        response = requests.get(
+                            f"{API_URL}/cam",
+                            params={
+                                "client": st.session_state.client,
+                                "room": room_filter
+                            }
+                        )
+                else:
+                    # Get all cameras for client
                     response = requests.get(
                         f"{API_URL}/cam",
-                        params={
-                            "client": st.session_state.client,
-                            "room": room_filter,
-                            "sector": sector_filter
-                        }
+                        params={"client": st.session_state.client}
                     )
-                else:
-                    # Get all cameras in a room
-                    response = requests.get(
-                        f"{API_URL}/cam",
-                        params={
-                            "client": st.session_state.client,
-                            "room": room_filter
-                        }
-                    )
-            else:
-                # Get all cameras for client
-                response = requests.get(
-                    f"{API_URL}/cam",
-                    params={"client": st.session_state.client}
-                )
-            
-            if response.status_code == 200:
-                cameras = response.json()
                 
-                # Convert to list if single camera returned
-                if isinstance(cameras, dict):
-                    cameras = [cameras]
-                
-                if cameras and len(cameras) > 0:
-                    # Convert to DataFrame for display
-                    df = pd.DataFrame(cameras)
-                    st.dataframe(df, use_container_width=True)
+                if response.status_code == 200:
+                    cameras = response.json()
                     
-                    # def camcapture(links):
-    
-                    #     if datetime.now().strftime("%A") in days:
-                    #         # try:
-                    #         cap = cv2.VideoCapture(detectapi.getCamLink(client,room,sector)["link"]) #IP Camera
-                    #         ret, frame = cap.read()
-                    #         frame = cv2.resize(frame,(1024, 576))
-                    #         cv2.imwrite(f"imagedata/control/{room}-{id}-{sector}.png", frame)
-                    #         print(f"Captured control at room {room}, image ID: {room}-{id}-{sector}")
-                    #         # except Exception as e:
-                    #         #     print(str(e.with_traceback))
-
-                    # Display camera previews
-                    st.subheader("Camera Previews")
-                    preview_columns = st.columns(3)
+                    # Convert to list if single camera returned
+                    if isinstance(cameras, dict):
+                        cameras = [cameras]
                     
-                    for i, camera in enumerate(cameras):
-                        col_idx = i % 3
-                        with preview_columns[col_idx]:
-                            st.subheader(f"Room: {camera['room']}, Sector: {camera['sector']}")
-                            # Check if link is an image URL
-                            if camera['link'].lower().endswith(('.png', '.jpg', '.jpeg')):
-                                st.image(camera['link'], caption=f"Camera ID: {camera['id']}", use_column_width=True)
-                            else:
-                                # either like this using your own camera IP
-                                capture = cv2.VideoCapture(camera['link'])
-                                # or like this
-                                # capture = cv2.VideoCapture('rtsp://username:password@192.168.1.64/1')
-
-                                ### Check box to turn on camera
-                                run = st.checkbox("Turn on camera",value=False)
-
-                                ### MAKE PLACE HOLDER FOR VIDEO FRAMES
-                                FRAME_WINDOW =st.image([])
-
-                                ### GRAB NEW IMAGE
-                                if run:
-                                    x, frame = camera.read()
-                                    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                                    time.sleep(0.025)
+                    if cameras and len(cameras) > 0:
+                        # Convert to DataFrame for display
+                        df = pd.DataFrame(cameras)
+                        st.dataframe(df, use_container_width=True)
+                        
+                        # Display camera previews
+                        st.subheader("Camera Previews")
+                        preview_columns = st.columns(3)
+                        
+                        for i, camera in enumerate(cameras):
+                            col_idx = i % 3
+                            with preview_columns[col_idx]:
+                                st.subheader(f"Room: {camera['room']}, Sector: {camera['sector']}")
+                                # Check if link is an image URL
+                                if camera['link'].lower().endswith(('.png', '.jpg', '.jpeg')):
+                                    st.image(camera['link'], caption=f"Camera ID: {camera['id']}", use_column_width=True)
+                                else:
+                                    st.write(f"Camera Link: {camera['link']}")
+                                    st.write("Preview not available (not an image URL)")
+                    else:
+                        st.info("No cameras found matching the criteria")
                 else:
-                    st.info("No cameras found matching the criteria")
-            else:
-                st.error(f"Error fetching cameras: {response.status_code} - {response.text}")
-            # except Exception as e:
-            #     st.error(f"Error: {str(e.with_traceback())}")
+                    st.error(f"Error fetching cameras: {response.status_code} - {response.text}")
+            except Exception as e:
+                st.error(f"Error: {str(e)}")
         
         with tabs[1]:
             st.subheader("Add Camera")
@@ -721,342 +695,19 @@ elif page == "Camera Management":
             search_option = st.radio("Search by", ["Room & Sector", "Camera ID"])
             
             if search_option == "Room & Sector":
-                room = st.text_input("Room")
-                sector = st.number_input("Sector", min_value=1, value=1)
-                
-                if st.button("Find Camera"):
-                    try:
-                        # Make API request
-                        response = requests.get(
-                            f"{API_URL}/cam",
-                            params={
-                                "client": st.session_state.client,
-                                "room": room,
-                                "sector": sector
-                            }
-                        )
-                        
-                        if response.status_code == 200:
-                            camera = response.json()
-                            
-                            st.session_state.camera_id = camera["id"]
-                            st.session_state.camera_data = camera
-                            
-                            # Show update form
-                            with st.form("update_camera_form"):
-                                new_room = st.text_input("New Room", value=camera["room"])
-                                new_sector = st.number_input("New Sector", min_value=1, value=camera["sector"])
-                                new_link = st.text_input("New Camera Link", value=camera["link"])
-                                
-                                update_submitted = st.form_submit_button("Update Camera")
-                                
-                                if update_submitted:
-                                    # Prepare payload
-                                    payload = {
-                                        "room": new_room,
-                                        "sector": new_sector,
-                                        "link": new_link
-                                    }
-                                    
-                                    # Make update request
-                                    update_response = requests.post(
-                                        f"{API_URL}/cam/update",
-                                        params={
-                                            "client": st.session_state.client,
-                                            "id": camera["id"]
-                                        },
-                                        json=payload
-                                    )
-                                    
-                                    if update_response.status_code == 200:
-                                        st.success("Camera updated successfully!")
-                                    else:
-                                        st.error(f"Error: {update_response.status_code} - {update_response.text}")
-                        else:
-                            st.error(f"Error: {response.status_code} - {response.text}")
-                    except Exception as e:
-                        st.error(f"Error: {str(e)}")
-            
-            elif search_option == "Camera ID":
-                camera_id = st.text_input("Camera ID")
-                
-                if st.button("Find Camera"):
-                    try:
-                        # Make API request
-                        response = requests.get(
-                            f"{API_URL}/cam",
-                            params={
-                                "client": st.session_state.client,
-                                "id": camera_id
-                            }
-                        )
-                        
-                        if response.status_code == 200:
-                            camera = response.json()
-                            
-                            # Show update form
-                            with st.form("update_camera_form_by_id"):
-                                new_room = st.text_input("New Room", value=camera["room"])
-                                new_sector = st.number_input("New Sector", min_value=1, value=camera["sector"])
-                                new_link = st.text_input("New Camera Link", value=camera["link"])
-                                
-                                update_submitted = st.form_submit_button("Update Camera")
-                                
-                                if update_submitted:
-                                    # Prepare payload
-                                    payload = {
-                                        "room": new_room,
-                                        "sector": new_sector,
-                                        "link": new_link
-                                    }
-                                    
-                                    # Make update request
-                                    update_response = requests.post(
-                                        f"{API_URL}/cam/update",
-                                        params={
-                                            "client": st.session_state.client,
-                                            "id": camera_id
-                                        },
-                                        json=payload
-                                    )
-                                    
-                                    if update_response.status_code == 200:
-                                        st.success("Camera updated successfully!")
-                                    else:
-                                        st.error(f"Error: {update_response.status_code} - {update_response.text}")
-                        else:
-                            st.error(f"Error: {response.status_code} - {response.text}")
-                    except Exception as e:
-                        st.error(f"Error: {str(e)}")
-        
-        with tabs[3]:
-            st.subheader("Delete Camera")
-            
-            delete_option = st.radio("Delete by", ["Room & Sector", "Camera ID", "All in Room"])
-            
-            if delete_option == "Room & Sector":
-                room = st.text_input("Room", key = "roomenter")
-                sector = st.number_input("Sector", min_value=1, value=1, key = "keyentry")
-                
-                if st.button("Delete Camera"):
-                    try:
-                        # Make API request
-                        response = requests.post(
-                            f"{API_URL}/cam/delete",
-                            params={
-                                "client": st.session_state.client,
-                                "room": room,
-                                "sector": sector
-                            }
-                        )
-                        
-                        if response.status_code == 200:
-                            st.success(f"Camera in room '{room}', sector {sector} deleted successfully!")
-                        else:
-                            st.error(f"Error: {response.status_code} - {response.text}")
-                    except Exception as e:
-                        st.error(f"Error: {str(e)}")
-            
-            elif delete_option == "Camera ID":
-                camera_id = st.text_input("Camera ID")
-                
-                if st.button("Delete Camera"):
-                    try:
-                        # Make API request
-                        response = requests.post(
-                            f"{API_URL}/cam/delete",
-                            params={
-                                "client": st.session_state.client,
-                                "id": camera_id
-                            }
-                        )
-                        
-                        if response.status_code == 200:
-                            st.success(f"Camera with ID '{camera_id}' deleted successfully!")
-                        else:
-                            st.error(f"Error: {response.status_code} - {response.text}")
-                    except Exception as e:
-                        st.error(f"Error: {str(e)}")
-            
-            elif delete_option == "All in Room":
-                room = st.text_input("Room")
-                
-                if st.button("Delete All Cameras in Room"):
-                    try:
-                        # Make API request
-                        response = requests.post(
-                            f"{API_URL}/cam/delete",
-                            params={
-                                "client": st.session_state.client,
-                                "room": room
-                            }
-                        )
-                        
-                        if response.status_code == 200:
-                            st.success(f"All cameras in room '{room}' deleted successfully!")
-                        else:
-                            st.error(f"Error: {response.status_code} - {response.text}")
-                    except Exception as e:
-                        st.error(f"Error: {str(e)}")
-        
-        with tabs[4]:
-            st.subheader("Bulk Import Cameras")
-            
-            st.write("Upload a CSV file with camera data. Required columns: room, sector, link")
-            
-            uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
-            
-            if uploaded_file is not None:
+                # Get existing rooms from API to populate dropdown
                 try:
-                    # Read the CSV file
-                    df = pd.read_csv(uploaded_file)
-                    
-                    # Validate required columns
-                    required_columns = ["room", "sector", "link"]
-                    if not all(col in df.columns for col in required_columns):
-                        st.error(f"CSV file must contain these columns: {', '.join(required_columns)}")
-                    else:
-                        # Display preview
-                        st.write("Preview of uploaded data:")
-                        st.dataframe(df.head())
-                        
-                        if st.button("Import Cameras"):
-                            progress_bar = st.progress(0)
-                            success_count = 0
-                            error_count = 0
-                            error_messages = []
-                            
-                            for i, row in df.iterrows():
-                                try:
-                                    # Prepare payload
-                                    payload = {
-                                        "id": "",  # API will generate UUID
-                                        "client": st.session_state.client,
-                                        "room": str(row["room"]),
-                                        "sector": int(row["sector"]),
-                                        "link": str(row["link"])
-                                    }
-                                    
-                                    # Make API request
-                                    response = requests.post(f"{API_URL}/cam", json=payload)
-                                    
-                                    if response.status_code == 200:
-                                        success_count += 1
-                                    else:
-                                        error_count += 1
-                                        error_messages.append(f"Row {i+1}: {response.text}")
-                                except Exception as e:
-                                    error_count += 1
-                                    error_messages.append(f"Row {i+1}: {str(e)}")
-                                
-                                # Update progress
-                                progress_bar.progress((i + 1) / len(df))
-                            
-                            # Show results
-                            st.success(f"Successfully imported {success_count} cameras")
-                            if error_count > 0:
-                                st.error(f"Failed to import {error_count} cameras")
-                                with st.expander("Error Details"):
-                                    for msg in error_messages:
-                                        st.write(msg)
-                except Exception as e:
-                    st.error(f"Error processing file: {str(e)}")
-
-# Reports Page
-elif page == "Reports":
-    st.title("Reports")
-    
-    if not st.session_state.client:
-        st.warning("Please select a client in the sidebar")
-    else:
-        st.subheader("Generate Reports")
-        
-        # Room selection
-        room = st.text_input("Room")
-        
-        # Date range selection
-        col1, col2 = st.columns(2)
-        with col1:
-            start_date = st.date_input("Start Date", datetime.now().replace(day=1))
-        with col2:
-            end_date = st.date_input("End Date", datetime.now())
-        
-        # Button to generate report
-        if st.button("Generate Report"):
-            if not room:
-                st.error("Please enter a room name")
-            else:
-                try:
-                    # Convert date to datetime with time set to beginning/end of day
-                    start_datetime = datetime.combine(start_date, time.min)
-                    end_datetime = datetime.combine(end_date, time.max)
-                    
-                    # Make API request
-                    response = requests.post(
-                        f"{API_URL}/report",
-                        params={
-                            "room": room,
-                            "client": st.session_state.client
-                        },
-                        json={
-                            "start": start_datetime.isoformat(),
-                            "end": end_datetime.isoformat()
-                        }
-                    )
-                    
+                    response = requests.get(f"{API_URL}/entry", params={"client": st.session_state.client})
                     if response.status_code == 200:
-                        report_data = response.json()
-                        
-                        if report_data:
-                            # Convert to DataFrame for better display
-                            df = pd.DataFrame(report_data)
-                            
-                            # Basic stats
-                            total_detections = sum(item.get("detections", 0) for item in report_data)
-                            
-                            st.success(f"Report generated successfully! Found {total_detections} detections.")
-                            
-                            # Display metrics
-                            col1, col2, col3 = st.columns(3)
-                            with col1:
-                                st.metric("Total Detections", total_detections)
-                            with col2:
-                                st.metric("Date Range", f"{start_date.strftime('%b %d')} - {end_date.strftime('%b %d')}")
-                            with col3:
-                                st.metric("Number of Records", len(report_data))
-                            
-                            # Display detailed data
-                            st.subheader("Detection Records")
-                            st.dataframe(df, use_container_width=True)
-                            
-                            # Option to download as CSV
-                            csv = df.to_csv(index=False)
-                            st.download_button(
-                                label="Download CSV",
-                                data=csv,
-                                file_name=f"tabsense_report_{room}_{start_date}_{end_date}.csv",
-                                mime="text/csv"
-                            )
-                            
-                            # Visualization section
-                            st.subheader("Visualization")
-                            
-                            # Convert timestamp to date for grouping
-                            if 'timestamp' in df.columns:
-                                df['date'] = pd.to_datetime(df['timestamp']).dt.date
-                                
-                                # Group by date and count detections
-                                detections_by_date = df.groupby('date')['detections'].sum().reset_index()
-                                
-                                # Plot
-                                st.line_chart(detections_by_date.set_index('date'))
-                        else:
-                            st.info("No detection data found for the selected criteria")
+                        entries = response.json()
+                        unique_rooms = sorted(set(entry.get("room", "") for entry in entries if "room" in entry))
+                        room = st.selectbox("Room", [""] + list(unique_rooms))
                     else:
-                        st.error(f"Error: {response.status_code} - {response.text}")
-                except Exception as e:
-                    st.error(f"Error: {str(e)}")
-        
-        # Example of custom report
-        with st.expander("Custom Reports"):
-            st.write("Here you can define and run custom reports based on specific criteria.")
+                        room = st.text_input("Room")
+                except:
+                    room = st.text_input("Room")
+                
+                # Get sectors for this room
+                if room:
+                    try:
+                        cam_response =

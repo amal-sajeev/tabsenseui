@@ -6,6 +6,7 @@ import pandas as pd
 from datetime import datetime, time
 import os, cv2, time
 from typing import List, Dict, Any
+from PIL import Image
 
 # Configure page
 st.set_page_config(
@@ -619,17 +620,29 @@ elif page == "Camera Management":
                     df = pd.DataFrame(cameras)
                     st.dataframe(df, use_container_width=True)
                     
-                    # def camcapture(links):
-    
-                    #     if datetime.now().strftime("%A") in days:
-                    #         # try:
-                    #         cap = cv2.VideoCapture(detectapi.getCamLink(client,room,sector)["link"]) #IP Camera
-                    #         ret, frame = cap.read()
-                    #         frame = cv2.resize(frame,(1024, 576))
-                    #         cv2.imwrite(f"imagedata/control/{room}-{id}-{sector}.png", frame)
-                    #         print(f"Captured control at room {room}, image ID: {room}-{id}-{sector}")
-                    #         # except Exception as e:
-                    #         #     print(str(e.with_traceback))
+                    def camcapture(rtsp_url: str) -> Image.Image:
+                        """
+                        Capture a single frame from an RTSP stream and return it as a PIL Image.
+
+                        Args:
+                            rtsp_url (str): The RTSP URL of the IP camera.
+
+                        Returns:
+                            PIL.Image.Image: A PIL Image of the current frame.
+                        """
+                        cap = cv2.VideoCapture(rtsp_url)
+                        if not cap.isOpened():
+                            raise ValueError(f"Unable to open RTSP stream: {rtsp_url}")
+
+                        ret, frame = cap.read()
+                        cap.release()
+
+                        if not ret:
+                            raise RuntimeError("Failed to read frame from stream.")
+
+                        # Convert from BGR (OpenCV) to RGB (PIL)
+                        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                        return Image.fromarray(frame_rgb)
 
                     # Display camera previews
                     st.subheader("Camera Previews")
@@ -637,28 +650,12 @@ elif page == "Camera Management":
                     
                     for i, camera in enumerate(cameras):
                         col_idx = i % 3
+                        
                         with preview_columns[col_idx]:
-                            st.subheader(f"Room: {camera['room']}, Sector: {camera['sector']}")
-                            # Check if link is an image URL
-                            if camera['link'].lower().endswith(('.png', '.jpg', '.jpeg')):
-                                st.image(camera['link'], caption=f"Camera ID: {camera['id']}", use_column_width=True)
-                            else:
-                                # either like this using your own camera IP
-                                capture = cv2.VideoCapture(camera['link'])
-                                # or like this
-                                # capture = cv2.VideoCapture('rtsp://username:password@192.168.1.64/1')
-
-                                ### Check box to turn on camera
-                                run = st.checkbox("Turn on camera",value=False)
-
-                                ### MAKE PLACE HOLDER FOR VIDEO FRAMES
-                                FRAME_WINDOW =st.image([])
-
-                                ### GRAB NEW IMAGE
-                                if run:
-                                    x, frame = camera.read()
-                                    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                                    time.sleep(0.025)
+                            if st.button(f" Room: {camera['room']}, Sector: {camera['sector']}"):
+                                with st.expander(f"Room: {camera['room']}, Sector: {camera['sector']}",True):
+                                    # st.write(type(camcapture(camera["link"])))
+                                    st.image(camcapture(camera["link"]))
                 else:
                     st.info("No cameras found matching the criteria")
             else:

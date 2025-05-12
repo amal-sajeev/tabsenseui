@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TabSense Dashboard User Manual</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="site-container">
+        <!-- Sidebar navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>TabSense</h1>
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <div class="sidebar-content">
+                <h3>Table of Contents</h3>
+                <nav class="toc">
+                    <ul>
+                        <li><a href="#introduction" class="toc-link">Introduction</a></li>
+                        <li>
+                            <a href="#getting-started" class="toc-link">Getting Started</a>
+                            <ul>
+                                <li><a href="#accessing-the-dashboard" class="toc-link">Accessing the Dashboard</a></li>
+                                <li><a href="#understanding-the-interface" class="toc-link">Understanding the Interface</a></li>
+                                <li><a href="#client-selection" class="toc-link">Client Selection</a></li>
+                                <li><a href="#navigation" class="toc-link">Navigation</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#home-dashboard" class="toc-link">Home Dashboard</a>
+                            <ul>
+                                <li><a href="#overview" class="toc-link">Overview</a></li>
+                                <li><a href="#quick-statistics" class="toc-link">Quick Statistics</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#detection" class="toc-link">Detection</a>
+                            <ul>
+                                <li><a href="#understanding-detection" class="toc-link">Understanding Detection</a></li>
+                                <li><a href="#running-a-manual-detection" class="toc-link">Running a Manual Detection</a></li>
+                                <li><a href="#interpreting-results" class="toc-link">Interpreting Results</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#schedule-management" class="toc-link">Schedule Management</a>
+                            <ul>
+                                <li><a href="#understanding-schedules" class="toc-link">Understanding Schedules</a></li>
+                                <li><a href="#viewing-the-schedule" class="toc-link">Viewing the Schedule</a></li>
+                                <li><a href="#adding-schedule-entries" class="toc-link">Adding Schedule Entries</a></li>
+                                <li><a href="#updating-schedule-entries" class="toc-link">Updating Schedule Entries</a></li>
+                                <li><a href="#deleting-schedule-entries" class="toc-link">Deleting Schedule Entries</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#camera-management" class="toc-link">Camera Management</a>
+                            <ul>
+                                <li><a href="#understanding-camera-setup" class="toc-link">Understanding Camera Setup</a></li>
+                                <li><a href="#viewing-cameras" class="toc-link">Viewing Cameras</a></li>
+                                <li><a href="#adding-cameras" class="toc-link">Adding Cameras</a></li>
+                                <li><a href="#updating-cameras" class="toc-link">Updating Cameras</a></li>
+                                <li><a href="#deleting-cameras" class="toc-link">Deleting Cameras</a></li>
+                                <li><a href="#bulk-importing-cameras" class="toc-link">Bulk Importing Cameras</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#reports" class="toc-link">Reports</a>
+                            <ul>
+                                <li><a href="#understanding-reports" class="toc-link">Understanding Reports</a></li>
+                                <li><a href="#generating-reports" class="toc-link">Generating Reports</a></li>
+                                <li><a href="#analyzing-report-data" class="toc-link">Analyzing Report Data</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#scheduler-control" class="toc-link">Scheduler Control</a>
+                            <ul>
+                                <li><a href="#understanding-the-scheduler" class="toc-link">Understanding the Scheduler</a></li>
+                                <li><a href="#managing-the-scheduler" class="toc-link">Managing the Scheduler</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#troubleshooting" class="toc-link">Troubleshooting</a>
+                            <ul>
+                                <li><a href="#login-and-access-issues" class="toc-link">Login and Access Issues</a></li>
+                                <li><a href="#client-selection-issues" class="toc-link">Client Selection Issues</a></li>
+                                <li><a href="#camera-problems" class="toc-link">Camera Problems</a></li>
+                                <li><a href="#schedule-issues" class="toc-link">Schedule Issues</a></li>
+                                <li><a href="#detection-problems" class="toc-link">Detection Problems</a></li>
+                                <li><a href="#report-generation-issues" class="toc-link">Report Generation Issues</a></li>
+                                <li><a href="#system-performance-issues" class="toc-link">System Performance Issues</a></li>
+                                <li><a href="#common-error-messages" class="toc-link">Common Error Messages</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main content area -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>TabSense Dashboard User Manual</h1>
+                <p class="dashboard-link">Access the dashboard: <a href="#" id="dashboard-url">Loading...</a></p>
+            </div>
+
+            <section id="introduction" class="content-section">
+                <h2>Introduction</h2>
+                <div class="expandable-content">
+                    <p>TabSense is a sophisticated monitoring system designed to help you track surface cleanliness through automated image analysis. This technology uses scheduled image captures and comparison algorithms to detect stains, residue, and other cleanliness issues across multiple locations, rooms, and specific areas (sectors).</p>
+                    
+                    <p>For businesses in industries where cleanliness is critical—such as hospitality, healthcare, food service, and manufacturing—TabSense provides an objective, automated way to verify that cleaning procedures are effective and surfaces remain clean between scheduled cleanings.</p>
+                    
+                    <p>This user manual will guide you through all features of the TabSense Dashboard, from basic navigation to advanced reporting, ensuring you can effectively monitor your facilities regardless of your technical experience.</p>
+                </div>
+            </section>
+
+            <section id="getting-started" class="content-section">
+                <h2>Getting Started</h2>
+                <div class="expandable-content">
+                    <div id="accessing-the-dashboard" class="subsection">
+                        <h3>Accessing the Dashboard</h3>
+                        <p>To access the TabSense Dashboard:</p>
+                        <ol>
+                            <li>Open your web browser</li>
+                            <li>Navigate to your organization's TabSense URL (typically provided by your IT department)</li>
+                            <li>Log in with your provided credentials if prompted</li>
+                        </ol>
+                    </div>
+
+                    <div id="understanding-the-interface" class="subsection">
+                        <h3>Understanding the Interface</h3>
+                        <p>The TabSense Dashboard has three main sections:</p>
+                        <ol>
+                            <li><strong>Left Sidebar</strong>: Contains navigation menu, client selection, and scheduler controls</li>
+                            <li><strong>Main Content Area</strong>: Displays the currently selected page content</li>
+                            <li><strong>Top Bar</strong>: Shows the page title and sometimes contains additional controls</li>
+                        </ol>
+                    </div>
+
+                    <div id="client-selection" class="subsection">
+                        <h3>Client Selection</h3>
+                        <p>Before using any features of the TabSense Dashboard, you must first select a client. A "client" in TabSense represents an organization or facility being monitored.</p>
+                        <ol>
+                            <li>Locate the <strong>Client Selection</strong> field in the left sidebar</li>
+                            <li>Enter your client name exactly as it was configured in the system</li>
+                            <li>All subsequent operations will be performed in the context of this client</li>
+                        </ol>
+                        <p class="note"><strong>Important</strong>: If you're unsure of your client name, contact your system administrator.</p>
+                    </div>
+
+                    <div id="navigation" class="subsection">
+                        <h3>Navigation</h3>
+                        <p>The TabSense Dashboard is organized into several main sections accessible via the navigation menu in the sidebar:</p>
+                        <ul>
+                            <li><strong>Home</strong>: Overview and quick statistics</li>
+                            <li><strong>Detection</strong>: Manual stain detection tools for on-demand analysis</li>
+                            <li><strong>Schedule</strong>: Schedule management for automated monitoring</li>
+                            <li><strong>Camera Management</strong>: Configure and manage cameras throughout your facility</li>
+                            <li><strong>Reports</strong>: Generate and view detection reports for historical analysis</li>
+                        </ul>
+                        <p>To navigate, simply click on the desired section in the sidebar menu.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="home-dashboard" class="content-section">
+                <h2>Home Dashboard</h2>
+                <div class="expandable-content">
+                    <div id="overview" class="subsection">
+                        <h3>Overview</h3>
+                        <p>The Home page provides a central overview of your TabSense system. For beginners, this is the best place to start as it provides a summary of the system's status and basic statistics.</p>
+                        
+                        <p>When you first access the Home page, you'll see:</p>
+                        <ul>
+                            <li>A welcome message introducing TabSense</li>
+                            <li>A summary of main features</li>
+                            <li>A section for quick statistics (only visible when a client is selected)</li>
+                        </ul>
+                    </div>
+
+                    <div id="quick-statistics" class="subsection">
+                        <h3>Quick Statistics</h3>
+                        <p>Once you've selected a client, the Home page displays quick statistics giving you an at-a-glance view of your monitoring system:</p>
+                        <ul>
+                            <li><strong>Total Rooms</strong>: The number of distinct rooms configured for monitoring</li>
+                            <li><strong>Active Cameras</strong>: The total number of cameras currently connected to the system</li>
+                            <li><strong>Detections Today</strong>: The number of stain detections recorded today</li>
+                        </ul>
+                        <p>These statistics help you quickly assess the scope of your monitoring setup and recent cleanliness issues.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="detection" class="content-section">
+                <h2>Detection</h2>
+                <div class="expandable-content">
+                    <div id="understanding-detection" class="subsection">
+                        <h3>Understanding Detection</h3>
+                        <p>The Detection feature allows you to manually run stain detection on specific areas. This is useful for:</p>
+                        <ul>
+                            <li>Immediate verification of cleanliness</li>
+                            <li>Testing new camera setups</li>
+                            <li>Investigating reported cleanliness issues</li>
+                            <li>Training staff on what constitutes a detection</li>
+                        </ul>
+                        <p>TabSense detection works by comparing a clean reference image (control image) with a current image to identify differences that may indicate stains or other cleanliness issues.</p>
+                    </div>
+
+                    <div id="running-a-manual-detection" class="subsection">
+                        <h3>Running a Manual Detection</h3>
+                        <p>To run a manual detection:</p>
+                        <ol>
+                            <li>Navigate to the <strong>Detection</strong> page from the sidebar</li>
+                            <li>Ensure you have selected the correct client</li>
+                            <li>Fill in the detection form:
+                                <ul>
+                                    <li><strong>Control Image UUID</strong>: Enter the unique identifier of the clean reference image (this is typically recorded when setting up a camera or can be found in the system logs)</li>
+                                    <li><strong>Current Image UUID</strong>: Enter the unique identifier of the image you want to check for stains</li>
+                                    <li><strong>Room</strong>: Select the room from the dropdown (this list is populated based on rooms configured in your schedule)</li>
+                                    <li><strong>Sectors</strong>: Select which camera sectors to analyze. Sectors are specific areas within a room that are monitored separately</li>
+                                </ul>
+                            </li>
+                            <li>Configure detection options:
+                                <ul>
+                                    <li><strong>Crop Images</strong>: When enabled, focuses the analysis on the most relevant parts of the image</li>
+                                    <li><strong>Shape</strong>: Determines how the detection algorithm identifies potential stain boundaries:
+                                        <ul>
+                                            <li><strong>Auto</strong>: System chooses the best method based on the images</li>
+                                            <li><strong>Rectangle</strong>: Identifies stains as rectangular areas</li>
+                                            <li><strong>Circle</strong>: Identifies stains as circular areas</li>
+                                            <li><strong>Oval</strong>: Identifies stains as oval-shaped areas</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Border Color</strong>: Choose the color used to highlight detected stains in the results</li>
+                                    <li><strong>Image Format</strong>: Select the output format for the results images</li>
+                                </ul>
+                            </li>
+                            <li>Click <strong>Run Detection</strong> to start the analysis</li>
+                        </ol>
+                    </div>
+
+                    <div id="interpreting-results" class="subsection">
+                        <h3>Interpreting Results</h3>
+                        <p>After running a detection, results will be displayed below the form:</p>
+                        <ul>
+                            <li>If stains are detected, you'll see a success message indicating how many sectors had detections</li>
+                            <li>For each sector with detections:
+                                <ul>
+                                    <li>The control (clean) image is shown on the left</li>
+                                    <li>The current image with highlighted stains is shown on the right</li>
+                                    <li>The highlighted areas indicate where the system detected differences between the two images</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>If no stains are detected, you'll see an information message stating "No stains detected!"</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="schedule-management" class="content-section">
+                <h2>Schedule Management</h2>
+                <div class="expandable-content">
+                    <div id="understanding-schedules" class="subsection">
+                        <h3>Understanding Schedules</h3>
+                        <p>Schedules in TabSense allow you to automate the monitoring process by defining when and where the system should capture images and run detections. A schedule consists of:</p>
+                        <ul>
+                            <li>A specific room to monitor</li>
+                            <li>One or more sectors within that room</li>
+                            <li>Time windows when monitoring should occur</li>
+                            <li>Days of the week when the schedule is active</li>
+                        </ul>
+                        <p>The scheduler will automatically capture images from the configured cameras during the specified times and run detections to check for cleanliness issues.</p>
+                    </div>
+
+                    <div id="viewing-the-schedule" class="subsection">
+                        <h3>Viewing the Schedule</h3>
+                        <p>To view your current schedule:</p>
+                        <ol>
+                            <li>Navigate to <strong>Schedule</strong> > <strong>View Schedule</strong> tab</li>
+                            <li>The current schedule will be displayed in a table format with the following information:
+                                <ul>
+                                    <li>Room name</li>
+                                    <li>Schedule label</li>
+                                    <li>Start and end times</li>
+                                    <li>Active days</li>
+                                    <li>Sectors being monitored</li>
+                                    <li>Schedule ID (useful for technical support)</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <p>For large schedules, you can filter the results by expanding the <strong>Filter Results</strong> section and entering a room name.</p>
+                    </div>
+
+                    <div id="adding-schedule-entries" class="subsection">
+                        <h3>Adding Schedule Entries</h3>
+                        <p>To add a new schedule entry:</p>
+                        <ol>
+                            <li>Navigate to <strong>Schedule</strong> > <strong>Add Entry</strong> tab</li>
+                            <li>Fill in the form:
+                                <ul>
+                                    <li><strong>Room</strong>: Select an existing room from the dropdown or choose "New Room..." to create a new one</li>
+                                    <li><strong>Label</strong>: Enter a descriptive name for this schedule entry (e.g., "Morning Check", "Post-Cleaning Verification")</li>
+                                    <li><strong>Start Hour/Minute</strong>: Set when monitoring should begin each day</li>
+                                    <li><strong>End Hour/Minute</strong>: Set when monitoring should end each day</li>
+                                    <li><strong>Sectors</strong>: Select camera sectors to monitor (these correspond to specific cameras in the room)</li>
+                                    <li><strong>Days</strong>: Select which days of the week this schedule should be active</li>
+                                </ul>
+                            </li>
+                            <li>Click <strong>Add Schedule Entry</strong></li>
+                        </ol>
+                        <p>A success message will appear when the entry is added successfully.</p>
+                    </div>
+
+                    <div id="updating-schedule-entries" class="subsection">
+                        <h3>Updating Schedule Entries</h3>
+                        <p>To update an existing schedule entry:</p>
+                        <ol>
+                            <li>Navigate to <strong>Schedule</strong> > <strong>Update Entry</strong> tab</li>
+                            <li>Select the entry you want to update from the dropdown (entries are listed with their ID, label, and room)</li>
+                            <li>The form will be pre-filled with the current settings for this entry</li>
+                            <li>Modify any fields as needed</li>
+                            <li>Click <strong>Update Schedule Entry</strong></li>
+                        </ol>
+                        <p>A success message will appear when the entry is updated successfully.</p>
+                    </div>
+
+                    <div id="deleting-schedule-entries" class="subsection">
+                        <h3>Deleting Schedule Entries</h3>
+                        <p>To delete schedule entries:</p>
+                        <ol>
+                            <li>Navigate to <strong>Schedule</strong> > <strong>Delete Entry</strong> tab</li>
+                            <li>Choose a deletion method:
+                                <ul>
+                                    <li><strong>Single Entry</strong>: Select and delete a specific entry from the dropdown</li>
+                                    <li><strong>Room</strong>: Delete all entries for a specific room</li>
+                                    <li><strong>Multiple Entries</strong>: Check multiple entries to delete at once</li>
+                                </ul>
+                            </li>
+                            <li>Click the corresponding delete button</li>
+                            <li>Confirm the deletion when prompted</li>
+                        </ol>
+                        <p>A success message will appear when the entries are deleted successfully.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="camera-management" class="content-section">
+                <h2>Camera Management</h2>
+                <div class="expandable-content">
+                    <div id="understanding-camera-setup" class="subsection">
+                        <h3>Understanding Camera Setup</h3>
+                        <p>Cameras are the eyes of the TabSense system, capturing images that are used for stain detection. Each camera is associated with:</p>
+                        <ul>
+                            <li>A specific room</li>
+                            <li>A sector number (representing a specific area within the room)</li>
+                            <li>A link/URL that provides access to the camera feed</li>
+                        </ul>
+                        <p>TabSense supports various camera types, including IP cameras with RTSP streams and static image URLs.</p>
+                    </div>
+
+                    <div id="viewing-cameras" class="subsection">
+                        <h3>Viewing Cameras</h3>
+                        <p>To view your configured cameras:</p>
+                        <ol>
+                            <li>Navigate to <strong>Camera Management</strong> > <strong>View Cameras</strong> tab</li>
+                            <li>Filter the camera list if needed:
+                                <ul>
+                                    <li><strong>Filter by Room</strong>: Select a specific room from the dropdown</li>
+                                    <li><strong>Filter by Sector</strong>: Enter a sector number (use 0 to show all sectors)</li>
+                                </ul>
+                            </li>
+                            <li>Camera information will be displayed in a table showing:
+                                <ul>
+                                    <li>Camera ID</li>
+                                    <li>Room name</li>
+                                    <li>Sector number</li>
+                                    <li>Camera link</li>
+                                </ul>
+                            </li>
+                            <li>Below the table, you'll see <strong>Camera Previews</strong> with buttons for each camera</li>
+                            <li>Click on a camera button to expand a live preview of that camera's feed</li>
+                        </ol>
+                        <p>The preview feature helps verify that cameras are working correctly and positioned appropriately.</p>
+                    </div>
+
+                    <div id="adding-cameras" class="subsection">
+                        <h3>Adding Cameras</h3>
+                        <p>To add a new camera:</p>
+                        <ol>
+                            <li>Navigate to <strong>Camera Management</strong> > <strong>Add Camera</strong> tab</li>
+                            <li>Fill in the form:
+                                <ul>
+                                    <li><strong>Room</strong>: Select an existing room or enter a new one</li>
+                                    <li><strong>Sector</strong>: Enter the sector number (a unique identifier within the room)</li>
+                                    <li><strong>Camera Link</strong>: Enter the full URL to access the camera
+                                        <ul>
+                                            <li>For IP cameras, this is typically an RTSP URL (e.g., <code>rtsp://username:password@camera-ip:port/stream</code>)</li>
+                                            <li>For static images, this can be an HTTP URL</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>Click <strong>Add Camera</strong></li>
+                        </ol>
+                        <p>A success message will appear when the camera is added successfully.</p>
+                    </div>
+
+                    <div id="updating-cameras" class="subsection">
+                        <h3>Updating Cameras</h3>
+                        <p>To update an existing camera:</p>
+                        <ol>
+                            <li>Navigate to <strong>Camera Management</strong> > <strong>Update Camera</strong> tab</li>
+                            <li>Choose a search method:
+                                <ul>
+                                    <li><strong>Room & Sector</strong>: Find a camera by room name and sector number</li>
+                                    <li><strong>Camera ID</strong>: Find a camera by its unique system ID</li>
+                                </ul>
+                            </li>
+                            <li>Enter the search criteria and click <strong>Find Camera</strong></li>
+                            <li>If the camera is found, the form will be populated with its current settings</li>
+                            <li>Update the necessary fields</li>
+                            <li>Click <strong>Update Camera</strong></li>
+                        </ol>
+                        <p>A success message will appear when the camera is updated successfully.</p>
+                    </div>
+
+                    <div id="deleting-cameras" class="subsection">
+                        <h3>Deleting Cameras</h3>
+                        <p>To delete a camera:</p>
+                        <ol>
+                            <li>Navigate to <strong>Camera Management</strong> > <strong>Delete Camera</strong> tab</li>
+                            <li>Choose a selection method:
+                                <ul>
+                                    <li><strong>Room & Sector</strong>: Find a camera by room name and sector number</li>
+                                    <li><strong>Camera ID</strong>: Find a camera by its unique system ID</li>
+                                </ul>
+                            </li>
+                            <li>Enter the search criteria and click <strong>Find Camera</strong></li>
+                            <li>If the camera is found, its details will be displayed for verification</li>
+                            <li>Click <strong>Delete Camera</strong></li>
+                            <li>Confirm the deletion when prompted</li>
+                        </ol>
+                        <p>A success message will appear when the camera is deleted successfully.</p>
+                    </div>
+
+                    <div id="bulk-importing-cameras" class="subsection">
+                        <h3>Bulk Importing Cameras</h3>
+                        <p>For adding multiple cameras efficiently, TabSense provides a bulk import feature:</p>
+                        <ol>
+                            <li>Navigate to <strong>Camera Management</strong> > <strong>Bulk Import</strong> tab</li>
+                            <li>Download the template CSV file by clicking <strong>Download Template</strong></li>
+                            <li>Fill in the template with your camera information:
+                                <ul>
+                                    <li>Each row represents one camera</li>
+                                    <li>Required columns: room, sector, link</li>
+                                </ul>
+                            </li>
+                            <li>Upload the completed CSV file by clicking <strong>Choose File</strong> and then <strong>Upload and Import</strong></li>
+                        </ol>
+                        <p>After import, a summary will display the number of cameras successfully added and any errors encountered.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="reports" class="content-section">
+                <h2>Reports</h2>
+                <div class="expandable-content">
+                    <div id="understanding-reports" class="subsection">
+                        <h3>Understanding Reports</h3>
+                        <p>Reports in TabSense provide historical analysis of cleanliness monitoring. They allow you to:</p>
+                        <ul>
+                            <li>Review detection history across time periods</li>
+                            <li>Identify trends in cleanliness issues</li>
+                            <li>Verify cleaning effectiveness</li>
+                            <li>Generate documentation for compliance purposes</li>
+                        </ul>
+                        <p>Reports can be generated for specific rooms, sectors, and time periods, giving you flexible analysis options.</p>
+                    </div>
+
+                    <div id="generating-reports" class="subsection">
+                        <h3>Generating Reports</h3>
+                        <p>To generate a new report:</p>
+                        <ol>
+                            <li>Navigate to the <strong>Reports</strong> page</li>
+                            <li>Fill in the report criteria:
+                                <ul>
+                                    <li><strong>Report Type</strong>: Choose from available report types (e.g., Daily Summary, Detection History, Trend Analysis)</li>
+                                    <li><strong>Date Range</strong>: Select the start and end dates for the report</li>
+                                    <li><strong>Room</strong>: Select a specific room or "All Rooms"</li>
+                                    <li><strong>Sector</strong>: Enter a specific sector or leave blank for all sectors</li>
+                                    <li><strong>Format</strong>: Choose the output format (PDF, CSV, HTML)</li>
+                                </ul>
+                            </li>
+                            <li>Click <strong>Generate Report</strong></li>
+                        </ol>
+                        <p>Depending on the amount of data being processed, report generation may take a few moments. Once complete, the report will be available for download or viewing in the browser.</p>
+                    </div>
+
+                    <div id="analyzing-report-data" class="subsection">
+                        <h3>Analyzing Report Data</h3>
+                        <p>TabSense reports provide several ways to analyze your cleanliness monitoring data:</p>
+                        <ul>
+                            <li><strong>Summary Statistics</strong>: Quick overview of detection counts and rates</li>
+                            <li><strong>Trend Graphs</strong>: Visual representation of detections over time</li>
+                            <li><strong>Detection Details</strong>: Specific information about each detection, including timestamps and images</li>
+                        </ul>
+                        <p>When reviewing reports, look for:</p>
+                        <ul>
+                            <li>Patterns in detection times (e.g., more stains detected at specific times of day)</li>
+                            <li>Frequently affected areas (rooms or sectors with consistently high detection counts)</li>
+                            <li>Improvement or degradation trends over time</li>
+                        </ul>
+                        <p>This analysis can help identify issues with cleaning procedures or schedules, allowing you to make data-driven improvements to your cleanliness protocols.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="scheduler-control" class="content-section">
+                <h2>Scheduler Control</h2>
+                <div class="expandable-content">
+                    <div id="understanding-the-scheduler" class="subsection">
+                        <h3>Understanding the Scheduler</h3>
+                        <p>The TabSense Scheduler is the engine that drives automated monitoring. It:</p>
+                        <ul>
+                            <li>Runs as a background process</li>
+                            <li>Manages the timing of image captures based on your schedule entries</li>
+                            <li>Initiates automated detections</li>
+                            <li>Stores results in the system database</li>
+                        </ul>
+                        <p>For the automated monitoring to work, the scheduler must be running. The scheduler control features in the dashboard allow you to manage this process.</p>
+                    </div>
+
+                    <div id="managing-the-scheduler" class="subsection">
+                        <h3>Managing the Scheduler</h3>
+                        <p>The scheduler controls are located in the sidebar of the TabSense Dashboard:</p>
+                        <ul>
+                            <li><strong>Launch Scheduler</strong>: Starts the scheduler process if it's not running</li>
+                            <li><strong>Relaunch Scheduler</strong>: Stops and then restarts the scheduler process (useful if you suspect the scheduler is not functioning correctly)</li>
+                        </ul>
+                        <p>When you click either of these buttons:</p>
+                        <ol>
+                            <li>The system will attempt to start or restart the scheduler process</li>
+                            <li>A success message will appear if the operation was successful</li>
+                            <li>An error message will appear if there was a problem</li>
+                        </ol>
+                        <p class="note"><strong>Note</strong>: The scheduler runs the <code>capture.py</code> script, which must be present in your TabSense installation directory.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="troubleshooting" class="content-section">
+                <h2>Troubleshooting</h2>
+                <div class="expandable-content">
+                    <div id="login-and-access-issues" class="subsection">
+                        <h3>Login and Access Issues</h3>
+                        <p>If you're having trouble accessing the TabSense Dashboard:</p>
+                        <ul>
+                            <li><strong>Problem</strong>: Can't access the dashboard URL
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Verify that you're using the correct URL</li>
+                                    <li>Check your network connection</li>
+                                    <li>Ensure that the hosting server is running</li>
+                                    <li>Contact your IT support if the problem persists</li>
+                                </ul>
+                            </li>
+                            <li><strong>Problem</strong>: Login credentials not working
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Check for caps lock or typos</li>
+                                    <li>Request a password reset if available</li>
+                                    <li>Contact your system administrator for credential verification</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="client-selection-issues" class="subsection">
+                        <h3>Client Selection Issues</h3>
+                        <p>If you're having trouble with client selection:</p>
+                        <ul>
+                            <li><strong>Problem</strong>: Client name not accepted
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Verify the exact spelling of the client name (it's case-sensitive)</li>
+                                    <li>Check with your administrator that the client is properly configured in the system</li>
+                                </ul>
+                            </li>
+                            <li><strong>Problem</strong>: Client selected but no data appears
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Verify that the client has been configured with cameras and schedules</li>
+                                    <li>Check if the client has any data in the database</li>
+                                    <li>Refresh the browser page</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="camera-problems" class="subsection">
+                        <h3>Camera Problems</h3>
+                        <p>Issues with cameras are common and can affect the entire monitoring process:</p>
+                        <ul>
+                            <li><strong>Problem</strong>: Camera preview not showing
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Verify the camera link is correct</li>
+                                    <li>Check if the camera is powered and connected to the network</li>
+                                    <li>Ensure any required authentication credentials in the camera link are correct</li>
+                                    <li>Try accessing the camera URL directly in a browser</li>
+                                </ul>
+                            </li>
+                            <li><strong>Problem</strong>: Camera adding/updating fails
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Check that all required fields are filled correctly</li>
+                                    <li>Verify that the sector number is not already in use for the selected room</li>
+                                    <li>Ensure the camera link is in the correct format for your camera type</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="schedule-issues" class="subsection">
+                        <h3>Schedule Issues</h3>
+                        <p>If your schedules are not working as expected:</p>
+                        <ul>
+                            <li><strong>Problem</strong>: Schedule not visible in the view
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Verify that you have the correct client selected</li>
+                                    <li>Check if the schedule was correctly added (look for success messages)</li>
+                                    <li>Try refreshing the page</li>
+                                </ul>
+                            </li>
+                            <li><strong>Problem</strong>: Schedule not executing automated detections
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Check if the scheduler is running (use the Launch Scheduler button)</li>
+                                    <li>Verify that the schedule time windows are correct</li>
+                                    <li>Ensure cameras are properly configured for the scheduled sectors</li>
+                                    <li>Check system logs for any error messages</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="detection-problems" class="subsection">
+                        <h3>Detection Problems</h3>
+                        <p>Issues with the detection process:</p>
+                        <ul>
+                            <li><strong>Problem</strong>: Manual detection fails
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Verify that the control and current image UUIDs are correct</li>
+                                    <li>Ensure the selected room and sectors exist in the system</li>
+                                    <li>Check that the images are accessible in the system</li>
+                                </ul>
+                            </li>
+                            <li><strong>Problem</strong>: False positives (detecting stains that aren't there)
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Try different detection shapes (rectangle, circle, oval)</li>
+                                    <li>Adjust camera positioning or lighting to reduce shadows and reflections</li>
+                                    <li>Update the control image if the surface has changed permanently</li>
+                                </ul>
+                            </li>
+                            <li><strong>Problem</strong>: False negatives (not detecting actual stains)
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Ensure there's adequate lighting</li>
+                                    <li>Check if the stains have sufficient contrast with the surface</li>
+                                    <li>Try different detection shapes</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="report-generation-issues" class="subsection">
+                        <h3>Report Generation Issues</h3>
+                        <p>If you encounter problems with reports:</p>
+                        <ul>
+                            <li><strong>Problem</strong>: Reports take too long to generate
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Try a shorter date range</li>
+                                    <li>Filter to specific rooms or sectors</li>
+                                    <li>Generate the report during off-peak hours</li>
+                                </ul>
+                            </li>
+                            <li><strong>Problem</strong>: Reports show no data
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Verify that detections occurred during the selected date range</li>
+                                    <li>Check that you've selected the correct room/sector</li>
+                                    <li>Ensure the client is correct</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="system-performance-issues" class="subsection">
+                        <h3>System Performance Issues</h3>
+                        <p>If the TabSense Dashboard is running slowly:</p>
+                        <ul>
+                            <li><strong>Problem</strong>: Slow page loading
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Clear your browser cache</li>
+                                    <li>Close unnecessary browser tabs</li>
+                                    <li>Try a different browser</li>
+                                    <li>Check your network connection speed</li>
+                                </ul>
+                            </li>
+                            <li><strong>Problem</strong>: Operations timing out
+                                <br><strong>Solutions</strong>:
+                                <ul>
+                                    <li>Check if the server is overloaded</li>
+                                    <li>Relaunch the scheduler if it seems to be consuming excessive resources</li>
+                                    <li>Contact your IT support for system resource evaluation</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div id="common-error-messages" class="subsection">
+                        <h3>Common Error Messages</h3>
+                        <p>Here are explanations and solutions for common error messages:</p>
+                        <ul>
+                            <li><strong>"Client not found"</strong>
+                                <br><strong>Meaning</strong>: The system could not find the client you entered
+                                <br><strong>Solution</strong>: Verify the client name spelling and check with your administrator
+                            </li>
+                            <li><strong>"Camera link invalid"</strong>
+                                <br><strong>Meaning</strong>: The camera URL format is not recognized
+                                <br><strong>Solution</strong>: Check the URL format and ensure it includes the proper protocol (http://, rtsp://)
+                            </li>
+                            <li><strong>"Schedule overlap detected"</strong>
+                                <br><strong>Meaning</strong>: You're trying to create a schedule that conflicts with an existing one
+                                <br><strong>Solution</strong>: Change the time window or days to avoid the overlap
+                            </li>
+                            <li><strong>"Image not found"</strong>
+                                <br><strong>Meaning</strong>: The system couldn't locate an image with the provided UUID
+                                <br><strong>Solution</strong>: Verify the UUID is correct and that the image exists in the system
+                            </li>
+                            <li><strong>"Scheduler already running"</strong>
+                                <br><strong>Meaning</strong>: You tried to launch the scheduler when it's already active
+                                <br><strong>Solution</strong>: Use "Relaunch Scheduler" if you need to restart it, or continue using the currently running instance
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="content-footer">
+                <p>&copy; TabSense - All rights reserved</p>
+            </footer>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

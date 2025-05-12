@@ -1,4 +1,6 @@
-# TabSense System
+# TabSense
+
+![[tabsense logo (Custom).png]]
 
 TabSense is a system for automated table and surface cleanliness monitoring using computer vision. This system detects stains and other cleanliness issues by comparing control (clean) images with current images of surfaces.
 

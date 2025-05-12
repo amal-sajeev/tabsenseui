@@ -4,9 +4,10 @@ import json
 import subprocess
 import pandas as pd
 from datetime import datetime, time
-import os, cv2, time
+import os, cv2
 from typing import List, Dict, Any
 from PIL import Image
+import time as timmytime
 
 # Configure page
 st.set_page_config(
@@ -19,7 +20,9 @@ st.set_page_config(
 API_URL = "http://localhost:8000"
 
 # Define sidebar navigation
-st.sidebar.title("TabSense Dashboard")
+# st.sidebar.title("TabSense Dashboard")
+
+st.sidebar.image("tabsense logo (Custom).png", use_container_width=True)
 page = st.sidebar.selectbox(
     "Navigation", 
     ["Home", "Detection", "Schedule", "Camera Management", "Reports"]
@@ -60,7 +63,6 @@ if st.sidebar.button("Relaunch Scheduler"):
 # Home page
 if page == "Home":
     st.title("TabSense Dashboard")
-    st.image("https://via.placeholder.com/800x200?text=TabSense+Dashboard", use_column_width=True)
     
     st.write("""
     ## Welcome to TabSense
@@ -276,7 +278,7 @@ elif page == "Schedule":
                     if response.status_code == 200:
                         entries = response.json()
                         unique_rooms = sorted(set(entry.get("room", "") for entry in entries if "room" in entry))
-                        room = st.selectbox("Room", [""] + list(unique_rooms) + ["New Room..."])
+                        room = st.selectbox("Room", [""] + list(unique_rooms) + ["New Room..."], accept_new_options = True)
                         
                         if room == "New Room...":
                             room = st.text_input("Enter New Room Name")
@@ -673,7 +675,7 @@ elif page == "Camera Management":
                     if response.status_code == 200:
                         entries = response.json()
                         unique_rooms = sorted(set(entry.get("room", "") for entry in entries if "room" in entry))
-                        room = st.selectbox("Room", [""] + list(unique_rooms) + ["New Room..."])
+                        room = st.selectbox("Room", [""] + list(unique_rooms) + ["New Room..."], accept_new_options =True)
                         
                         if room == "New Room...":
                             room = st.text_input("Enter New Room Name")
@@ -985,8 +987,8 @@ elif page == "Reports":
             else:
                 try:
                     # Convert date to datetime with time set to beginning/end of day
-                    start_datetime = datetime.combine(start_date, time.min)
-                    end_datetime = datetime.combine(end_date, time.max)
+                    start_datetime = datetime.combine(start_date, datetime.min.time())
+                    end_datetime = datetime.combine(end_date, datetime.max.time())
                     
                     # Make API request
                     response = requests.post(
